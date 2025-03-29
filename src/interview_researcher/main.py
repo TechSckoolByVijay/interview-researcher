@@ -2,8 +2,6 @@
 import sys
 import warnings
 
-from datetime import datetime
-
 from interview_researcher.crew import InterviewResearcher
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
@@ -18,14 +16,21 @@ def run():
     Run the crew.
     """
     inputs = {
-        'topic': 'AI LLMs',
-        'current_year': str(datetime.now().year)
+        'topic': 'AI LLMs'
     }
-    
-    try:
-        InterviewResearcher().crew().kickoff(inputs=inputs)
-    except Exception as e:
-        raise Exception(f"An error occurred while running the crew: {e}")
+    InterviewResearcher().crew().kickoff(inputs=inputs)
+
+def run_my_agent(jd_text,candidate_resume_text,temperature,special_instruction):
+    """
+    Run the crew.
+    """
+    inputs = {
+        'jd_text': jd_text,
+        'candidate_resume_text': candidate_resume_text,
+        'temperature': temperature,
+        'special_instruction': special_instruction
+    }
+    return InterviewResearcher().crew().kickoff(inputs=inputs)
 
 
 def train():
@@ -56,11 +61,10 @@ def test():
     Test the crew execution and returns the results.
     """
     inputs = {
-        "topic": "AI LLMs",
-        "current_year": str(datetime.now().year)
+        "topic": "AI LLMs"
     }
     try:
         InterviewResearcher().crew().test(n_iterations=int(sys.argv[1]), openai_model_name=sys.argv[2], inputs=inputs)
 
     except Exception as e:
-        raise Exception(f"An error occurred while testing the crew: {e}")
+        raise Exception(f"An error occurred while replaying the crew: {e}")
